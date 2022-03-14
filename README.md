@@ -1,2 +1,3 @@
-# sse-chart
-App to test realtime chart with SSE
+#START 
+In the root folder: npm start app 
+In the server folder: node server.js
