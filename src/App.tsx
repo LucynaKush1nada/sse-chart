@@ -2,16 +2,10 @@ import * as React from 'react';
 import './App.css';
 
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
 import IData from './IData';
+
+import Chart from './Chart';
+import ButtonsPrice from './ButtonsPrice';
 
 const serverBaseURL = "http://localhost:5000";
 
@@ -28,7 +22,7 @@ const App = () => {
         },
         onmessage(event) {
           console.log(event.data);
-          const parsedData = JSON.parse(event.data)
+          const parsedData = JSON.parse(JSON.stringify(event.data))
           setData((data) => [...data, parsedData])
         },
         onclose() {
@@ -54,18 +48,11 @@ const App = () => {
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
       <h1>Stock prices of a and b</h1>
-      <LineChart width={1000} height={400} data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="time" />
-        <YAxis domain={[20, 26]} />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="aTechStockPrice" stroke="#8884d8" />
-        <Line type="monotone" dataKey="bTechStockPrice" stroke="#82ca9d" />
-      </LineChart>
+      <Chart data={data} />
       <button onClick={() => changeFilter("a")}>Display A Price</button>
       <button onClick={() => changeFilter("b")}>Display B Price</button>
       <button onClick={() => changeFilter("both")}>Display both Price's</button>
+      <ButtonsPrice msg='Display A Price'/>
     </div>
   )
 }
