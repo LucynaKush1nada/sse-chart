@@ -3,15 +3,13 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const PORT = 5000;
 
-const getStockPrice = (range, base) =>
-    (Math.random() * range + base).toFixed(2);
-const getTime = () => new Date().toLocaleTimeString();
-
-app.use(express.json());
 var myInterval;
+const getStockPrice = (range, base) => (Math.random() * range + base).toFixed(2);
+const getTime = () => new Date().toLocaleTimeString();
 
 app.post("/sse", function (req, res) {
     res.writeHead(200, {
@@ -24,8 +22,10 @@ app.post("/sse", function (req, res) {
         clearInterval(myInterval)
         myInterval = setInterval(() => {
             res.write(
-                `data: {"time": "${getTime()}", "aTechStockPrice": "${getStockPrice(
-                    2, 20)}"}`
+                `data: {
+                    "time": "${getTime()}",
+                    "aTechStockPrice": "${getStockPrice(2, 20)}"
+                }`
             );
             res.write("\n\n");
         }, 2000);
@@ -35,7 +35,10 @@ app.post("/sse", function (req, res) {
         clearInterval(myInterval)
         myInterval = setInterval(() => {
             res.write(
-                `data: {"time": "${getTime()}", "bTechStockPrice": "${getStockPrice(4, 22)}"}`
+                `data: {
+                    "time": "${getTime()}",
+                    "bTechStockPrice": "${getStockPrice(4, 22)}"
+                }`
             );
             res.write("\n\n");
         }, 2000);
@@ -45,8 +48,11 @@ app.post("/sse", function (req, res) {
         clearInterval(myInterval)
         myInterval = setInterval(() => {
             res.write(
-                `data: {"time": "${getTime()}", "aTechStockPrice": "${getStockPrice(
-                    2, 20)}", "bTechStockPrice": "${getStockPrice(4, 22)}"}`
+                `data: {
+                    "time": "${getTime()}",
+                    "aTechStockPrice": "${getStockPrice(2, 20)}",
+                    "bTechStockPrice": "${getStockPrice(4, 22)}"
+                }`
             );
             res.write("\n\n");
         }, 2000);
