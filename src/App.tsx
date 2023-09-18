@@ -10,10 +10,10 @@ const App = () => {
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
       <h1>Stock prices of a and b</h1>
-      <Chart data={dataChart}/>
-      <ClickButtonChart caption="Display A Price" element='a' setDataChart={setDataChart}/>
-      <ClickButtonChart caption="Display B Price" element='b' setDataChart={setDataChart}/>
-      <ClickButtonChart caption="Display both Price's" element='both' setDataChart={setDataChart}/>
+      <Chart data={ () => dataChart }/>
+      <ClickButtonChart caption="Display A Price" setDataChart={() => setDataChart('a')}/>
+      <ClickButtonChart caption="Display B Price" setDataChart={() => setDataChart('b')}/>
+      <ClickButtonChart caption="Display both Price's" setDataChart={() => setDataChart('both')}/>
     </div>
   )
 }

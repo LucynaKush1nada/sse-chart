@@ -7,11 +7,10 @@ const serverBaseURL = "http://localhost:5000";
 
 interface ClickButtonChartProps {
     caption: string;
-    element: string;
     setDataChart: (value: string) => void;
 }
 
-const ClickButtonChart = ({ caption, element, setDataChart }: ClickButtonChartProps) => {
+const ClickButtonChart = ({ caption, setDataChart }: ClickButtonChartProps) => {
     const [data, setData] = React.useState<IData[]>([] as IData[]);
     const [filter, setFilter] = React.useState<string>("a")
     React.useEffect(() => {
@@ -48,7 +47,7 @@ const ClickButtonChart = ({ caption, element, setDataChart }: ClickButtonChartPr
     }
 
     return (
-        <button onClick={() => changeFilter(`${ element }`)}>{caption}</button>
+        <button onClick={() => changeFilter(`${ setDataChart }`)}>{caption}</button>
     )
 }
 
