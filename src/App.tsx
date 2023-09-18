@@ -2,55 +2,18 @@ import * as React from 'react';
 import './App.css';
 
 import Chart from './Chart';
-
-import { fetchEventSource } from "@microsoft/fetch-event-source";
-import IData from './IData';
-
-const serverBaseURL = "http://localhost:5000";
+import ClickButtonChart from './ClickButtonChart';
 
 const App = () => {
-  const [data, setData] = React.useState<IData[]>([] as IData[]);
-  const [filter, setFilter] = React.useState<string>("a")
-  React.useEffect(() => {
-    const fetchData = async () => {
-      await fetchEventSource(`${serverBaseURL}/sse`, {
-        method: "POST",
-        headers: {
-          Accept: "text/event-stream",
-          "Content-Type": "application/json"
-        },
-        onmessage(event) {
-          console.log(event.data);
-          const parsedData = JSON.parse(event.data)
-          setData((data) => [...data, parsedData])
-        },
-        onclose() {
-          console.log("Connection closed by the server");
-        },
-        onerror(err) {
-          console.log("There was an error from server", err)
-        },
-        body: JSON.stringify({
-          filter: filter
-        })
-      })
-    }
-    fetchData();
-  }, [filter])
-
-  const changeFilter = (fltr: string) => {
-    console.log("before:" + filter)
-    setFilter(fltr)
-    console.log("after:" + filter)
-  }
+  const [dataChart, setDataChart] = React.useState<string>("a");
 
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
       <h1>Stock prices of a and b</h1>
-      <Chart data={data}/>
-      <button onClick={() => changeFilter("a")}>Display A Price</button>
-      <button onClick={() => changeFilter("b")}>Display B Price</button>
-      <button onClick={() => changeFilter("both")}>Display both Price's</button>
+      <Chart data={dataChart}/>
+      <ClickButtonChart caption="Display A Price" element='a' setDataChart={setDataChart}/>
+      <ClickButtonChart caption="Display B Price" element='b' setDataChart={setDataChart}/>
+      <ClickButtonChart caption="Display both Price's" element='both' setDataChart={setDataChart}/>
     </div>
   )
 }

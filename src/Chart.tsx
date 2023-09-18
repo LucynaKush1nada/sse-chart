@@ -8,7 +8,7 @@ import {
     Legend,
 } from "recharts";
 
-export interface ChartProps {
+interface ChartProps {
     data: any;
 }
 
