@@ -7,10 +7,11 @@ const serverBaseURL = "http://localhost:5000";
 
 interface ClickButtonChartProps {
     caption: string;
-    setDataChart: (value: string) => void;
+    indFilter: string;
+    setDataChartClick: (value: string) => void;
 }
 
-const ClickButtonChart = ({ caption, setDataChart }: ClickButtonChartProps) => {
+const ClickButtonChart = ({ caption, indFilter, setDataChartClick }: ClickButtonChartProps) => {
     const [data, setData] = React.useState<IData[]>([] as IData[]);
     const [filter, setFilter] = React.useState<string>("a")
     React.useEffect(() => {
@@ -41,13 +42,18 @@ const ClickButtonChart = ({ caption, setDataChart }: ClickButtonChartProps) => {
     }, [filter])
 
     const changeFilter = (fltr: string) => {
+        console.log(fltr);
         console.log("before:" + filter)
         setFilter(fltr)
         console.log("after:" + filter)
+        console.log(data)
+        console.log(setDataChartClick)
+        // TODO: Вот здесь скорее всего как-то нужно перенести данные с data в перменную
+        setDataChartClick = data
     }
 
     return (
-        <button onClick={() => changeFilter(`${ setDataChart }`)}>{caption}</button>
+        <button onClick={() => changeFilter(`${indFilter}`)}>{caption}</button>
     )
 }
 

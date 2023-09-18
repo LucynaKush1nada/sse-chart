@@ -11,9 +11,9 @@ const App = () => {
     <div style={{ display: "grid", placeItems: "center" }}>
       <h1>Stock prices of a and b</h1>
       <Chart data={ () => dataChart }/>
-      <ClickButtonChart caption="Display A Price" setDataChart={() => setDataChart('a')}/>
-      <ClickButtonChart caption="Display B Price" setDataChart={() => setDataChart('b')}/>
-      <ClickButtonChart caption="Display both Price's" setDataChart={() => setDataChart('both')}/>
+      <ClickButtonChart caption="Display A Price" indFilter='a' setDataChartClick={() => setDataChart('a')}/>
+      <ClickButtonChart caption="Display B Price" indFilter='b' setDataChartClick={() => setDataChart('b')}/>
+      <ClickButtonChart caption="Display both Price's" indFilter='both' setDataChartClick={() => setDataChart('both')}/>
     </div>
   )
 }
