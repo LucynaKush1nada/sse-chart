@@ -2,22 +2,18 @@ import * as React from 'react';
 import './App.css';
 
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
+
 import IData from './IData';
+
+import Chart from './Chart';
+import ClickButtonChart from './ClickButtonChart';
 
 const serverBaseURL = "http://localhost:5000";
 
 const App = () => {
   const [data, setData] = React.useState<IData[]>([] as IData[]);
   const [filter, setFilter] = React.useState<string>("a")
+
   React.useEffect(() => {
     const fetchData = async () => {
       await fetchEventSource(`${serverBaseURL}/sse`, {
@@ -45,27 +41,13 @@ const App = () => {
     fetchData();
   }, [filter])
 
-  const changeFilter = (fltr: string) => {
-    console.log("before:" + filter)
-    setFilter(fltr)
-    console.log("after:" + filter)
-  }
-
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
       <h1>Stock prices of a and b</h1>
-      <LineChart width={1000} height={400} data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="time" />
-        <YAxis domain={[20, 26]} />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="aTechStockPrice" stroke="#8884d8" />
-        <Line type="monotone" dataKey="bTechStockPrice" stroke="#82ca9d" />
-      </LineChart>
-      <button onClick={() => changeFilter("a")}>Display A Price</button>
-      <button onClick={() => changeFilter("b")}>Display B Price</button>
-      <button onClick={() => changeFilter("both")}>Display both Price's</button>
+      <Chart data={data} />
+      <ClickButtonChart caption="Display A Price" indFilter='a' onChangeFilter={() => setFilter('a')} />
+      <ClickButtonChart caption="Display B Price" indFilter='b' onChangeFilter={() => setFilter('b')} />
+      <ClickButtonChart caption="Display both Price's" indFilter='both' onChangeFilter={() => setFilter('both')} />
     </div>
   )
 }
